@@ -1,0 +1,13 @@
+{
+  "task": "flow_extraction",
+  "video_mp4_base64": "BASE64_ENCODED_RGB_MP4_BYTES",
+  "depth_npy_base64": "BASE64_ENCODED_NUMPY_SAVE_DEPTH_ARRAY",
+  "intrinsics": [642.5, 641.9, 649.8, 365.9],
+  "mask_prompt": "mug",
+  "depth_scale": 1.0,
+  "checkpoint": "checkpoints/tapip3d_final.pth",
+  "resolution_factor": 2,
+  "query_grid_size": 32,
+  "vis_threshold": 0.9,
+  "tapip3d_node": "vanilla"
+}

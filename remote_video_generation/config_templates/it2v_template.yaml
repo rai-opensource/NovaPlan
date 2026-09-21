@@ -1,0 +1,6 @@
+task: it2v
+model: wan2.2-it2v
+resolution: 512x512
+num_frames: 16
+image_strength: 0.65
+guidance_scale: 6.5

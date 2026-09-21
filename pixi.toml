@@ -1,0 +1,159 @@
+[workspace]
+name = "novaplan"
+version = "0.1.0"
+description = "NovaPlan closed-loop video-language planning"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[dependencies]
+python = ">=3.10,<3.12"
+pip = "*"
+ffmpeg = "*"
+ca-certificates = "*"
+certifi = "*"
+git = "*"
+git-lfs = "*"
+
+[pypi-dependencies]
+"novaplan" = { path = ".", editable = true }
+
+[feature.local-planning.pypi-dependencies]
+requests = ">=2.31.0"
+numpy = ">=1.26.0"
+Pillow = ">=10.0.0"
+imageio = ">=2.33.0"
+imageio-ffmpeg = ">=0.4.9"
+opencv-python = ">=4.8.0"
+openai = ">=1.0.0"
+google-genai = ">=2.10.0,<3"
+ruff = ">=0.5.0"
+
+[feature.hand.pypi-dependencies]
+open3d = ">=0.18.0"
+trimesh = ">=4.0.0"
+pyrender = ">=0.1.45"
+
+[feature.hand.tasks]
+hand-flow-client = "python -m novaplan.hand_flow.hamer_client"
+
+[feature.viz.tasks]
+visualize-execution-step = "python local_planning/visualization/viser_execution_step.py"
+review-flow-step = "python local_planning/visualization/viser_flow_review.py"
+
+[feature.viz.pypi-dependencies]
+viser = ">=0.2.0"
+trimesh = ">=4.0.0"
+
+[feature.video-host.pypi-dependencies]
+fastapi = ">=0.111.0"
+uvicorn = ">=0.29.0"
+httpx = ">=0.25.0"
+aiofiles = ">=23.2.1"
+pydantic = ">=2.6.0"
+numpy = ">=1.26.0"
+Pillow = ">=10.0.0"
+requests = ">=2.31.0"
+huggingface-hub = ">=0.23.0"
+
+[feature.object-flow-host.dependencies]
+# Pinned SAM3 still imports pkg_resources, which setuptools removed in v82.
+setuptools = ">=68,<82"
+
+[feature.object-flow-host.pypi-dependencies]
+fastapi = ">=0.111.0"
+uvicorn = ">=0.29.0"
+httpx = ">=0.25.0"
+aiofiles = ">=23.2.1"
+pydantic = ">=2.6.0"
+numpy = ">=1.26.0,<2"
+Pillow = ">=10.0.0"
+opencv-python = ">=4.8.0,<5"
+pandas = "*"
+pycocotools = "*"
+scikit-image = "*"
+scikit-learn = "*"
+websockets = ">=12.0"
+huggingface-hub = ">=0.23.0"
+av = "*"
+addict = "*"
+e3nn = "*"
+evo = "*"
+imageio = "*"
+moviepy = "==1.0.3"
+omegaconf = "*"
+plyfile = ">=1.0,<1.1.4"
+pillow-heif = "*"
+pycolmap = "*"
+safetensors = "*"
+trimesh = "*"
+hydra-core = "*"
+python-box = { version = "~=7.0", extras = ["all"] }
+typed-argument-parser = "*"
+kornia = "*"
+timm = "*"
+rich = "*"
+tqdm = "*"
+
+[feature.hand-flow-host.dependencies]
+python = "3.10.*"
+pip = "*"
+
+[feature.hand-flow-host.pypi-dependencies]
+fastapi = ">=0.111.0"
+uvicorn = ">=0.29.0"
+pydantic = ">=2.6.0"
+numpy = ">=1.26.0,<2"
+opencv-python = ">=4.8.0,<5"
+
+[feature.local-planning.tasks]
+test-all = "PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s local_planning/tests -p 'test_*.py'"
+test-flow-switching = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_flow_switching.py"
+test-execution-step = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_execution_step.py"
+test-hand-flow-client = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_hand_flow_extraction_client.py"
+test-state-verification = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_state_verification.py"
+test-recovery = "PYTHONDONTWRITEBYTECODE=1 python -m unittest local_planning.tests.test_recovery_policy local_planning.tests.test_recovery_grounding"
+test-recovery-grasp = "PYTHONDONTWRITEBYTECODE=1 python -m unittest local_planning.tests.test_recovery_policy.RecoveryPolicyTest.test_heuristic_defaults_ambiguous_failures_to_grasp local_planning.tests.test_recovery_policy.RecoveryPolicyTest.test_grasp_model_response_forces_paper_null_annotation_and_prompt local_planning.tests.test_recovery_grounding.RecoveryGroundingTest.test_grasp_recovery_uses_flf_generation_and_auto_grounding"
+test-recovery-non-prehensile = "PYTHONDONTWRITEBYTECODE=1 python -m unittest local_planning.tests.test_recovery_policy.RecoveryPolicyTest.test_paper_schema_non_prehensile_keeps_annotation_and_prompt local_planning.tests.test_recovery_policy.RecoveryPolicyTest.test_non_prehensile_rejects_missing_or_ambiguous_contact_finger local_planning.tests.test_recovery_grounding.RecoveryGroundingTest.test_single_non_prehensile_candidate_skips_selection_flow_and_vlm_ranking local_planning.tests.test_recovery_grounding.RecoveryGroundingTest.test_non_prehensile_forces_prompted_fingertip_and_tries_next_candidate"
+test-observations = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_observations.py"
+test-planner-execution = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_planner_execution_rollout.py"
+test-video-generation-client = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_wan_video_generation_client.py"
+test-depth-calibration = "PYTHONDONTWRITEBYTECODE=1 python remote_object_flow/tests/test_depth_calibration_contract.py"
+test-vlm-prompts = "PYTHONDONTWRITEBYTECODE=1 python local_planning/tests/test_vlm_prompt_contracts.py"
+verify-video-server = "python remote_video_generation/tests/test_video_generation_server.py --num_videos 1"
+warm-video-workers = "python remote_video_generation/tests/test_video_generation_server.py --full_only"
+verify-object-flow-server = "python remote_object_flow/tests/test_object_flow_server.py --example_dir example_data/color_sorting --step step_001 --mask_prompt 'blue cube'"
+verify-hand-flow-server = "INSTALL_LOCAL_ENV=0 HAND_FLOW_RESULTS_DIR=runs/verification/hand_flow/flow ./local_planning/run_hand_flow_extraction_sample.sh && INSTALL_LOCAL_HAND_ENV=0 RUN_HAND_CONTRACT_TEST=0 HAND_FLOW_INPUT_FILE=runs/verification/hand_flow/flow/tapip3d_output.npz HAND_FLOW_OUT_FOLDER=runs/verification/hand_flow/hamer_outputs ./local_planning/run_hand_flow_client_sample.sh"
+verify-closed-loop = "python local_planning/run_closed_loop_execution.py --goal 'Put each block into the container of the matching color.' --input_frame example_data/color_sorting/start.png --sample_root example_data/color_sorting --execution_context recorded_observations --video_backend wan22 --recovery_video_backend wan22 --execution_num_video_per_action 1 --recovery_num_videos 1"
+minimal-flow-switching = "PYTHONDONTWRITEBYTECODE=1 python examples/minimal_flow_switching.py"
+plan-beam-search = "python -m novaplan.planner"
+compile-execution-step = "python local_planning/run_execution_step.py"
+closed-loop-execution = "python local_planning/run_closed_loop_execution.py"
+color-sorting-showcase-live = "python local_planning/run_closed_loop_execution.py --goal 'Put each block into the container of the matching color.' --input_frame example_data/color_sorting/start.png --sample_root example_data/color_sorting --execution_context recorded_observations"
+color-sorting-step-live = "python local_planning/run_closed_loop_execution.py --goal 'Put each block into the container of the matching color.' --input_frame example_data/color_sorting/start.png --sample_root example_data/color_sorting --execution_context recorded_observations --horizon_count_max 1 --video_backend wan22 --recovery_video_backend wan22 --execution_num_video_per_action 1 --recovery_num_videos 1"
+run-hand-flow-extraction-sample = "./local_planning/run_hand_flow_extraction_sample.sh"
+run-hand-flow-client-sample = "./local_planning/run_hand_flow_client_sample.sh"
+
+[feature.video-host.tasks]
+setup-video-host = "./remote_video_generation/setup_video_generation_host.sh"
+launch-video-main = "./remote_video_generation/launch_main_video_generation.sh"
+launch-video-server = "./remote_video_generation/launch_server_video_generation.sh"
+test-video-server-contract = "PYTHONDONTWRITEBYTECODE=1 python remote_video_generation/tests/test_video_generation_server_contract.py"
+
+[feature.object-flow-host.tasks]
+setup-object-flow-host = "./remote_object_flow/setup_object_flow_host.sh"
+launch-object-flow-main = "./remote_object_flow/launch_main_object_flow.sh"
+launch-object-flow-server = "./remote_object_flow/launch_server_object_flow.sh"
+
+[feature.hand-flow-host.tasks]
+setup-hand-flow-host = "./remote_hand_flow/setup_hand_flow_host.sh"
+bootstrap-hand-flow-host = "./remote_hand_flow/bootstrap_hand_flow_host.sh"
+launch-hand-flow-server = "./remote_hand_flow/launch_hand_flow_server.sh"
+
+[environments]
+local-planning = ["local-planning"]
+local-planning-hand = ["local-planning", "hand"]
+local-planning-viz = ["local-planning", "viz"]
+local-planning-full = ["local-planning", "hand", "viz"]
+video-host = ["video-host"]
+object-flow-host = ["object-flow-host"]
+hand-flow-host = ["hand-flow-host"]

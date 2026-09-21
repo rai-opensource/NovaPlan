@@ -1,0 +1,6 @@
+task: i2v
+model: wan2.2-i2v
+resolution: 512x512
+num_frames: 24
+prompt_strength: 0.8
+guidance_scale: 7.5

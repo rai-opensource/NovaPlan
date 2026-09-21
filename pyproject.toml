@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "novaplan"
+version = "0.1.0"
+description = "Closed-loop video language planning for zero-shot long-horizon manipulation"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Jiahui Fu"},
+  {name = "Junyu Nan"},
+  {name = "Lingfeng Sun"},
+  {name = "Hongyu Li"},
+  {name = "Jianing Qian"},
+  {name = "Yilun Du"},
+  {name = "Jennifer L. Barry"},
+  {name = "Kris Kitani"},
+  {name = "George Konidaris"},
+]
+keywords = ["novaplan", "robotics", "zero-shot manipulation", "long-horizon planning", "video generation", "object flow", "hand flow"]
+
+dependencies = [
+  "requests>=2.31.0",
+  "numpy>=1.26.0",
+  "Pillow>=10.0.0",
+  "imageio>=2.33.0",
+  "imageio-ffmpeg>=0.4.9",
+  "opencv-python>=4.8.0",
+  "openai>=1.0.0",
+  "google-genai>=2.10.0,<3",
+]
+
+[project.urls]
+Homepage = "https://novaplan-corl2026.github.io/"
+Paper = "https://arxiv.org/abs/2602.20119"
+Source = "https://github.com/rai-opensource/NovaPlan"
+
+[project.optional-dependencies]
+hand = [
+  # Optional local visualization/mesh dependencies for HaMeR hand-flow outputs.
+  "open3d>=0.18.0",
+  "trimesh>=4.0.0",
+  "pyrender>=0.1.45",
+]
+viz = [
+  "viser>=0.2.0",
+  "trimesh>=4.0.0",
+]
+server = [
+  "fastapi>=0.111.0",
+  "uvicorn>=0.29.0",
+  "httpx>=0.25.0",
+  "aiofiles>=23.2.1",
+  "pydantic>=2.6.0",
+  "websockets>=12.0",
+]
+dev = [
+  "ruff>=0.5.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["novaplan*"]
+exclude = ["**/config_templates*", "**/output*", "**/input*"]

@@ -1,0 +1,11 @@
+{
+  "rgb_videob64": "BASE64_ENCODED_NUMPY_SAVE_RGB_FRAMES",
+  "out_folder": "/tmp/novaplan/hamer_outputs",
+  "batch_size": 8,
+  "rescale_factor": 2.0,
+  "stride": 1,
+  "max_frames": -1,
+  "fps": 30.0,
+  "persist_outputs": false,
+  "return_mesh_arrays": true
+}
